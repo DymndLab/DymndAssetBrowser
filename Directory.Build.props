@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- Keep candidate dependencies local so sandboxed, test, and publish builds resolve identically. -->
+    <RestorePackagesPath>$(MSBuildThisFileDirectory).packages</RestorePackagesPath>
+  </PropertyGroup>
+</Project>

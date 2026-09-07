@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>Dymnd Builder V1 Prototype</AssemblyName>
+    <RootNamespace>DymndBuilder.V1</RootNamespace>
+    <Version>1.1.2</Version>
+    <ApplicationIcon>..\..\src\FAFamilyBrowser.App\Assets\Dymnd.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\FAFamilyBrowser.Core\FAFamilyBrowser.Core.csproj" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.11" />
+  </ItemGroup>
+</Project>

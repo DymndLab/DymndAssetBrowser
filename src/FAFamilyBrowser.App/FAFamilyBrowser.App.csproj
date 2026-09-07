@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\FAFamilyBrowser.Core\FAFamilyBrowser.Core.csproj" />
+    <Resource Include="Assets\Dymnd.ico" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Dym&amp;D Asset Companion</AssemblyName>
+    <RootNamespace>FAFamilyBrowser.App</RootNamespace>
+    <Product>Dym&amp;D Asset Companion</Product>
+    <Title>Dym&amp;D Asset Companion</Title>
+    <Description>A read-only multi-library art catalog and Clip Studio Paint companion.</Description>
+    <Version>2.5.1</Version>
+    <ApplicationIcon>Assets\Dymnd.ico</ApplicationIcon>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FAFamilyBrowser.App/FAFamilyBrowser.App.csproj" />
+    <Project Path="src/FAFamilyBrowser.Core/FAFamilyBrowser.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/FAFamilyBrowser.SmokeTests/FAFamilyBrowser.SmokeTests.csproj" />
+  </Folder>
+  <Folder Name="/experiments/">
+    <Project Path="experiments/DymndBuilder.V1/DymndBuilder.V1.csproj" />
+    <Project Path="experiments/DymndBuilder.V1.SmokeTests/DymndBuilder.V1.SmokeTests.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/FAWallRibbonAudit/FAWallRibbonAudit.csproj" />
+    <Project Path="tools/TaxonomyAudit/TaxonomyAudit.csproj" />
+  </Folder>
+</Solution>
