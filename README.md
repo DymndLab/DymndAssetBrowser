@@ -74,7 +74,7 @@ The gear opens cache utilities. Cache files persist between sessions. Do not cle
 - [Development and packaging](DEVELOPMENT.md)
 - [Documentation review checklist](docs/RELEASE-CHECKLIST.md)
 
-The illustrated PDF is the owner-approved guide. The Planner refinements described above postdate its screenshots; the PDF is preserved without regenerating it from earlier drafts.
+The illustrated PDF is the owner-approved guide. The repository copy includes a drag-and-drop introduction added to section 1 after the 2.9.0 release; the existing release downloads retain the earlier PDF. The Planner refinements described above postdate its screenshots. The guide has not been regenerated from earlier drafts.
 
 ## Independence and artwork
 

@@ -1,5 +1,5 @@
 {
   "releaseVersion": "2.9.0",
-  "guideSha256": "F630E84E424CFE30559E2775DE6B27F2A901A6FC45763D5606ACAE454AA6AD46",
-  "note": "Owner-approved illustrated guide, preserved unchanged. README and release notes describe the subsequent Planner refinements and the existing personal CSP Tool/Tool Group suggestions."
+  "guideSha256": "BEDB889F62B60B71F45038308C310F14B5227515AD5D6587C2BB6AD1D4115A53",
+  "note": "Owner-approved illustrated guide with the requested drag-and-drop introduction added to section 1 after the 2.9.0 release. Pages 2-11 are unchanged. README and release notes describe the subsequent Planner refinements and the existing personal CSP Tool/Tool Group suggestions."
 }
