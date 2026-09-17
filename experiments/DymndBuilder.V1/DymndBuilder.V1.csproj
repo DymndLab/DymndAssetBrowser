@@ -8,10 +8,10 @@
     <AssemblyName>Dymnd Builder V1 Prototype</AssemblyName>
     <RootNamespace>DymndBuilder.V1</RootNamespace>
     <Version>1.1.2</Version>
-    <ApplicationIcon>..\..\src\FAFamilyBrowser.App\Assets\Dymnd.ico</ApplicationIcon>
+    <ApplicationIcon>..\..\src\DymndAssetBrowser.App\Assets\Dymnd.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FAFamilyBrowser.Core\FAFamilyBrowser.Core.csproj" />
+    <ProjectReference Include="..\..\src\DymndAssetBrowser.Core\DymndAssetBrowser.Core.csproj" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.11" />
   </ItemGroup>
 </Project>

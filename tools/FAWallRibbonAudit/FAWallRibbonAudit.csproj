@@ -6,6 +6,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FAFamilyBrowser.Core\FAFamilyBrowser.Core.csproj" />
+    <ProjectReference Include="..\..\src\DymndAssetBrowser.Core\DymndAssetBrowser.Core.csproj" />
   </ItemGroup>
 </Project>

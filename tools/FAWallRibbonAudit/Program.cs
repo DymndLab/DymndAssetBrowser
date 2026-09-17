@@ -1,6 +1,6 @@
-using FAFamilyBrowser.Core.Models;
-using FAFamilyBrowser.Core.Parsing;
-using FAFamilyBrowser.Core.Persistence;
+using DymndAssetBrowser.Core.Models;
+using DymndAssetBrowser.Core.Parsing;
+using DymndAssetBrowser.Core.Persistence;
 
 if (args.Length < 1 || !File.Exists(args[0]))
 {

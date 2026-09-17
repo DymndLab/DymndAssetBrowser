@@ -1,0 +1,57 @@
+<UserControl x:Class="DymndAssetBrowser.App.PlannerFilterCard" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:infra="clr-namespace:DymndAssetBrowser.App.Infrastructure">
+ <UserControl.Resources>
+  <Style x:Key="MaterialLabel" TargetType="TextBlock">
+   <Setter Property="Foreground" Value="#E6E8EA"/>
+   <Style.Triggers><DataTrigger Binding="{Binding HasMatches}" Value="False">
+    <Setter Property="Foreground" Value="#8A9199"/><Setter Property="TextDecorations" Value="Strikethrough"/>
+   </DataTrigger></Style.Triggers>
+  </Style>
+ </UserControl.Resources>
+ <Border Background="#22272D" BorderBrush="#3B444D" BorderThickness="1" CornerRadius="4" Padding="8">
+  <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+   <DockPanel Margin="0,0,0,5">
+    <Button Content="Reset" Click="Reset_Click" DockPanel.Dock="Right" Padding="7,2"/>
+    <Button x:Name="ClearChoiceButton" Content="Clear choice" Click="Unpin_Click" DockPanel.Dock="Right" Padding="7,2" Margin="0,0,5,0" ToolTip="Clear the chosen item or wall set; keep this section's filters" Visibility="{Binding HasPinnedSelection, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    <TextBlock Text="{Binding Title}" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" VerticalAlignment="Center"/>
+   </DockPanel>
+   <ScrollViewer x:Name="FilterBodyScroller" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+   <StackPanel>
+   <TextBlock Text="Biome" Margin="0,0,0,2"/>
+   <ToggleButton x:Name="BiomeButton" Content="{Binding BiomeSummary}" ToolTip="{Binding BiomeSummary}" Height="24" Click="Biome_Click" IsChecked="{Binding IsOpen, ElementName=BiomePopup, Mode=OneWay}"/>
+   <Popup infra:PopupOwnerGuard.Enabled="True" x:Name="BiomePopup" PlacementTarget="{Binding ElementName=BiomeButton}" Placement="Bottom" StaysOpen="True" AllowsTransparency="True" Opened="Biomes_Opened">
+    <Border Width="250" Padding="10" Background="#242A31" BorderBrush="#65717E" BorderThickness="1"><StackPanel>
+     <TextBlock Text="Ctrl: toggle · Shift: range" Margin="0,0,0,7"/><Button Content="All biomes" Click="AllBiomes_Click"/>
+     <ListBox x:Name="BiomeList" ItemsSource="{Binding BiomeOptions}" SelectionMode="Extended" SelectionChanged="Biomes_Changed" MaxHeight="280" Background="#242A31" Foreground="#F0F1F2" Margin="0,6,0,0"/>
+    </StackPanel></Border>
+   </Popup>
+   <StackPanel DataContext="{Binding CollectionFacet}" Margin="0,5,0,0"><TextBlock Text="Settlement type" Margin="0,0,0,2"/><ComboBox ItemsSource="{Binding Options}" SelectedItem="{Binding Selected}" Height="24"/></StackPanel>
+   <TextBlock Text="Materials" Margin="0,5,0,2"/>
+   <ToggleButton x:Name="MaterialButton" Content="{Binding MaterialSummary}" ToolTip="{Binding MaterialSummary}" Height="24" Click="Materials_Click" IsChecked="{Binding IsOpen, ElementName=MaterialPopup, Mode=OneWay}"/>
+   <Popup infra:PopupOwnerGuard.Enabled="True" x:Name="MaterialPopup" PlacementTarget="{Binding ElementName=MaterialButton}" Placement="Bottom" StaysOpen="True" AllowsTransparency="True">
+    <Border Width="310" Padding="12" Background="#242A31" BorderBrush="#65717E" BorderThickness="1"><StackPanel>
+     <TextBox Text="{Binding MaterialSearch, UpdateSourceTrigger=PropertyChanged}" ToolTip="Search material or finish"/>
+     <DockPanel Margin="0,8"><Button Content="Clear" Click="ClearMaterials_Click" DockPanel.Dock="Right"/><CheckBox Content="Match all selections" IsChecked="{Binding MatchAllMaterials}" Foreground="#E6E8EA" VerticalAlignment="Center"/></DockPanel>
+     <CheckBox x:Name="ExcludeMaterialsCheckBox" Content="Exclude additional materials" IsChecked="{Binding ExcludeAdditionalMaterials}" Foreground="#E6E8EA" Margin="0,0,0,8" ToolTip="Only allow selected material types. Wood excludes Wood + Brick; select both to allow the combination. Finishes still follow Match all selections. Has no effect with no materials selected."/>
+     <ScrollViewer MaxHeight="280" VerticalScrollBarVisibility="Auto"><ItemsControl ItemsSource="{Binding MaterialGroups}"><ItemsControl.ItemTemplate><DataTemplate>
+      <Expander Foreground="#E6E8EA" Margin="0,4"><Expander.Header><CheckBox DataContext="{Binding Parent}" IsChecked="{Binding IsSelected}" IsEnabled="{Binding CanToggle}" Foreground="#E6E8EA" ToolTip="Any finish of this material; crossed-out choices have no matches with the current filters" ToolTipService.ShowOnDisabled="True" Padding="3,0"><TextBlock Text="{Binding Key}" Style="{StaticResource MaterialLabel}"/></CheckBox></Expander.Header>
+       <ItemsControl ItemsSource="{Binding Choices}"><ItemsControl.ItemTemplate><DataTemplate><CheckBox IsChecked="{Binding IsSelected}" IsEnabled="{Binding CanToggle}" Foreground="#E6E8EA" Margin="20,4,0,4" ToolTip="Crossed-out choices have no matches with the current filters" ToolTipService.ShowOnDisabled="True"><TextBlock Text="{Binding Label}" Style="{StaticResource MaterialLabel}"/></CheckBox></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+      </Expander>
+     </DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
+    </StackPanel></Border>
+   </Popup>
+   <DockPanel Margin="0,5,0,2"><CheckBox Content="All tags" IsChecked="{Binding MatchAllTags}" Foreground="#E6E8EA" DockPanel.Dock="Right"/><TextBlock Text="Tags · comma separated"/></DockPanel>
+   <TextBox Text="{Binding Tags, UpdateSourceTrigger=PropertyChanged, Delay=275}" Height="24" ToolTip="Source and user tags; any by default"/>
+   <DockPanel Margin="0,5,0,0"><TextBlock Text="Variant" Width="58" VerticalAlignment="Center"/>
+    <ComboBox x:Name="VariantCombo" ItemsSource="{Binding VariantOptions}" SelectedValuePath="Value" SelectedValue="{Binding VariantFacet.Selected, Mode=TwoWay}" Height="24">
+     <ComboBox.ItemContainerStyle><Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+      <Setter Property="IsEnabled" Value="{Binding HasMatches}"/>
+      <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+      <Style.Triggers><DataTrigger Binding="{Binding HasMatches}" Value="False"><Setter Property="ToolTip" Value="No matches with the current filters"/></DataTrigger></Style.Triggers>
+     </Style></ComboBox.ItemContainerStyle>
+     <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Value}" Style="{StaticResource MaterialLabel}"/></DataTemplate></ComboBox.ItemTemplate>
+    </ComboBox>
+   </DockPanel>
+   <TextBlock Text="{Binding Summary}" ToolTip="{Binding Summary}" TextTrimming="CharacterEllipsis" Foreground="{StaticResource AccentBrush}" Margin="0,5,0,0"/>
+  </StackPanel></ScrollViewer></Grid>
+ </Border>
+</UserControl>

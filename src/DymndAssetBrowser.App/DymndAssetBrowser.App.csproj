@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="SkiaSharp" Version="4.152.0" />
+    <ProjectReference Include="..\DymndAssetBrowser.Core\DymndAssetBrowser.Core.csproj" />
+    <Resource Include="Assets\Dymnd.ico" />
+    <Resource Include="Assets\DymndWordmark.png" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>DYM&amp;D Asset Browser</AssemblyName>
+    <RootNamespace>DymndAssetBrowser.App</RootNamespace>
+    <Product>DYM&amp;D Asset Browser</Product>
+    <Title>DYM&amp;D Asset Browser</Title>
+    <Description>A read-only multi-library art catalog and Clip Studio Paint companion.</Description>
+    <Version>2.9.0</Version>
+    <ApplicationIcon>Assets\Dymnd.ico</ApplicationIcon>
+  </PropertyGroup>
+
+</Project>

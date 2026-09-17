@@ -7,3 +7,6 @@ artifacts/
 .packages/
 work/
 .flat-library-audit/
+
+# Local release drafts, test screenshots, library audits, and verification records.
+outputs/

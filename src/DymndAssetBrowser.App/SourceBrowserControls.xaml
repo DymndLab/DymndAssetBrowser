@@ -1,0 +1,63 @@
+<UserControl x:Class="DymndAssetBrowser.App.SourceBrowserControls"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:infra="clr-namespace:DymndAssetBrowser.App.Infrastructure">
+ <StackPanel Margin="12,10,12,0">
+  <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="180"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+   <StackPanel Margin="0,0,10,8" Width="170" VerticalAlignment="Top">
+    <TextBlock Text="Biome" Foreground="#BFC5CC" Margin="0,0,0,4"/>
+    <ToggleButton x:Name="BiomeButton" Click="BiomeButton_Click" IsChecked="{Binding IsOpen, ElementName=BiomePopup, Mode=OneWay}" Content="{Binding BiomeSummary}" ToolTip="{Binding BiomeSummary}" Height="30" Background="#242A31" Foreground="#F0F1F2"/>
+    <Popup infra:PopupOwnerGuard.Enabled="True" x:Name="BiomePopup" PlacementTarget="{Binding ElementName=BiomeButton}" StaysOpen="True" Placement="Bottom" AllowsTransparency="True" Opened="Biomes_Opened">
+     <Border Background="#242A31" BorderBrush="#65717E" BorderThickness="1" Padding="10" Width="240">
+      <StackPanel><TextBlock Text="Ctrl: toggle · Shift: range" Margin="0,0,0,7"/><Button Content="All biomes" Click="AllBiomes_Click"/>
+       <ListBox x:Name="BiomeList" ItemsSource="{Binding BiomeOptions}" SelectionMode="Extended" SelectionChanged="Biomes_Changed" MaxHeight="300" Background="#242A31" Foreground="#F0F1F2" Margin="0,6,0,0"/>
+      </StackPanel>
+     </Border>
+    </Popup>
+   </StackPanel>
+   <ItemsControl Grid.Column="1" ItemsSource="{Binding PrimarySourceFacets}">
+    <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+    <ItemsControl.ItemTemplate><DataTemplate><StackPanel Width="170" Margin="0,0,10,8"><TextBlock Text="{Binding Label}" Foreground="#BFC5CC" Margin="0,0,0,4"/><ComboBox ItemsSource="{Binding Options}" SelectedItem="{Binding Selected}" IsEnabled="{Binding HasOptions}" Height="30"/></StackPanel></DataTemplate></ItemsControl.ItemTemplate>
+   </ItemsControl>
+  </Grid>
+  <WrapPanel>
+   <StackPanel Width="230" Margin="0,0,10,8"><TextBlock Text="Materials" Foreground="#BFC5CC" Margin="0,0,0,4"/>
+    <ToggleButton x:Name="MaterialButton" Click="MaterialButton_Click" IsChecked="{Binding IsOpen, ElementName=MaterialPopup, Mode=OneWay}" Content="{Binding MaterialSummary}" Height="30" Background="#242A31" Foreground="#F0F1F2"/>
+    <Popup infra:PopupOwnerGuard.Enabled="True" x:Name="MaterialPopup" PlacementTarget="{Binding ElementName=MaterialButton}" StaysOpen="True" Placement="Bottom" AllowsTransparency="True">
+     <Border Background="#242A31" BorderBrush="#65717E" BorderThickness="1" Padding="12" Width="310">
+      <StackPanel><TextBox Text="{Binding MaterialSearch, UpdateSourceTrigger=PropertyChanged}" ToolTip="Search material or finish"/>
+       <DockPanel Margin="0,8,0,8"><Button Content="Clear" Click="ClearMaterials_Click" DockPanel.Dock="Right"/><CheckBox Content="Match all selections" IsChecked="{Binding MatchAllMaterials}" Foreground="#E6E8EA" VerticalAlignment="Center"/></DockPanel>
+       <ScrollViewer MaxHeight="310" VerticalScrollBarVisibility="Auto"><ItemsControl ItemsSource="{Binding MaterialGroups}"><ItemsControl.ItemTemplate><DataTemplate>
+        <Expander Foreground="#E6E8EA" Margin="0,4"><Expander.Header><CheckBox Content="{Binding Name}" IsChecked="{Binding Parent.IsSelected}" Foreground="#E6E8EA" ToolTip="Any finish of this material" Padding="3,0"/></Expander.Header><ItemsControl ItemsSource="{Binding Choices}"><ItemsControl.ItemTemplate><DataTemplate><CheckBox Content="{Binding Label}" IsChecked="{Binding IsSelected}" Foreground="#E6E8EA" Margin="20,4,0,4"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></Expander>
+       </DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
+      </StackPanel>
+     </Border>
+    </Popup>
+   </StackPanel>
+   <StackPanel Width="190" Margin="0,0,10,8" DataContext="{Binding CollectionFacet}"><TextBlock Text="Settlement collection" Foreground="#BFC5CC" Margin="0,0,0,4"/><ComboBox ItemsSource="{Binding Options}" SelectedItem="{Binding Selected}" IsEnabled="{Binding HasOptions}" Height="30"/></StackPanel>
+  <StackPanel DataContext="{Binding VariantFacet}" Width="170" HorizontalAlignment="Left" Margin="0,0,10,8"><TextBlock Text="Variant" Foreground="#BFC5CC" Margin="0,0,0,4"/><ComboBox ItemsSource="{Binding Options}" SelectedItem="{Binding Selected}" IsEnabled="{Binding HasOptions}"/></StackPanel>
+   <StackPanel Width="300" Margin="0,0,10,8"><TextBlock Text="Tags · comma separated" Foreground="#BFC5CC" Margin="0,0,0,4"/><TextBox Text="{Binding TagSearch, UpdateSourceTrigger=PropertyChanged, Delay=275}" Height="30" ToolTip="Source and user tags. Exact tags separated by commas; Any by default."/></StackPanel>
+   <CheckBox Content="All tags" IsChecked="{Binding MatchAllTags}" Foreground="#E6E8EA" VerticalAlignment="Bottom" Margin="0,0,12,15"/>
+  </WrapPanel>
+  <WrapPanel VerticalAlignment="Center">
+   <Grid Width="330" Margin="0,0,10,8">
+    <TextBox x:Name="SearchBox" Height="30" Padding="6,4,30,4" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" ToolTip="Filename search: words in any order, quotes for an exact phrase"/>
+    <TextBlock Text="Search filenames…" Margin="8,0,30,0" VerticalAlignment="Center" IsHitTestVisible="False" Foreground="#929BA4"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding SearchText}" Value=""><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock>
+    <Button x:Name="ClearSearchButton" Content="×" Click="ClearSearch_Click" Width="24" Height="24" Padding="0" Margin="0,0,3,0" HorizontalAlignment="Right" VerticalAlignment="Center" Focusable="False" FontSize="16" ToolTip="Clear filename search" AutomationProperties.Name="Clear filename search">
+     <Button.Style><Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+      <Setter Property="Background" Value="Transparent"/><Setter Property="BorderThickness" Value="0"/><Setter Property="Foreground" Value="#BFC5CC"/>
+      <Style.Triggers>
+       <DataTrigger Binding="{Binding Text, ElementName=SearchBox}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+       <Trigger Property="IsMouseOver" Value="True"><Setter Property="Foreground" Value="#FFFFFF"/><Setter Property="Background" Value="#465363"/></Trigger>
+      </Style.Triggers>
+     </Style></Button.Style>
+    </Button>
+   </Grid>
+   <CheckBox Content="Case sensitive" IsChecked="{Binding FilenameCaseSensitive}" Foreground="#E6E8EA" VerticalAlignment="Center" Margin="0,0,12,8"/>
+   <Button Content="Reset filters" Click="Reset_Click" Margin="0,0,10,8"/>
+   <Button Content="Select all results" Click="SelectAll_Click" Margin="0,0,10,8"/>
+   <Button Content="Edit tags…" Click="EditTags_Click" Margin="0,0,10,8"/>
+   <TextBlock Text="Thumbnails" VerticalAlignment="Center" Margin="0,0,8,8"/>
+   <Slider Width="110" Minimum="110" Maximum="280" Value="{Binding ThumbnailSize}" VerticalAlignment="Center" Margin="0,0,0,8"/>
+  </WrapPanel>
+  <DockPanel><Button Content="{Binding NewAssetsLabel}" Click="NewAssets_Click" Visibility="{Binding HasNewAssets, Converter={StaticResource BooleanToVisibilityConverter}}" DockPanel.Dock="Right"/><TextBlock Text="{Binding SelectionSummary}" Foreground="#929BA4" VerticalAlignment="Center"/></DockPanel>
+ </StackPanel>
+</UserControl>

@@ -5,8 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using FAFamilyBrowser.Core.Models;
-using FAFamilyBrowser.Core.Persistence;
+using DymndAssetBrowser.Core.Models;
+using DymndAssetBrowser.Core.Persistence;
 using Microsoft.Win32;
 
 namespace DymndBuilder.V1;

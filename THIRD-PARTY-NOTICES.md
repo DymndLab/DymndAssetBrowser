@@ -1,18 +1,18 @@
-# Third-Party Notices
+# Third-party notices
 
-Dym&D Asset Companion 2.5.1 is distributed as a self-contained .NET application and uses the following third-party components. Forgotten Adventures source asset files and Clip Studio Paint brushes are not included.
+DYM&D Asset Browser 2.8.5 is distributed as a self-contained .NET application. It uses the components below. Forgotten Adventures source asset files and Clip Studio Paint brushes are not bundled.
 
-## Forgotten Adventures
+## Artwork and product references
 
-The Feature Guide contains interface screenshots displaying Forgotten Adventures artwork for identification and instructional commentary. Every such screenshot carries an adjacent credit, and no reusable source asset files are distributed.
+The Feature Guide includes interface captures showing Forgotten Adventures artwork as part of workflow examples. Captures displaying that artwork carry an adjacent credit; they are not a reusable asset library.
 
-Artwork credit: Forgotten Adventures — <https://www.forgotten-adventures.net/>
+Artwork credit: Forgotten Adventures - <https://www.forgotten-adventures.net/>.
 
-Dym&D Asset Companion is an unofficial community project and is not affiliated with or endorsed by Forgotten Adventures. Users must obtain and use their own Forgotten Adventures library under the terms supplied by Forgotten Adventures.
+DYM&D Asset Browser is an independent community project, not affiliated with or endorsed by Forgotten Adventures or CELSYS. Users supply their own appropriately licensed libraries. Forgotten Adventures and Clip Studio Paint names identify supported libraries and workflows, not ownership or endorsement of this application. The screenshot selection remains subject to owner review before publication.
 
 ## .NET
 
-The application includes portions of the Microsoft .NET runtime and Windows Desktop runtime, licensed by Microsoft under the MIT License. See <https://github.com/dotnet/runtime> and <https://github.com/dotnet/wpf>.
+The self-contained package includes portions of the Microsoft .NET runtime and Windows Desktop runtime, licensed under the MIT License. See <https://github.com/dotnet/runtime> and <https://github.com/dotnet/wpf>.
 
 ## Microsoft.Data.Sqlite
 
@@ -30,4 +30,13 @@ The application includes portions of the Microsoft .NET runtime and Windows Desk
 - License: Apache-2.0
 - Project: <https://github.com/ericsink/SQLitePCL.raw>
 
-The license identifiers above are taken from the package metadata used to build this release. The corresponding license texts are available from the linked projects and their package distributions.
+## SkiaSharp / native image codec
+
+- SkiaSharp 4.152.0
+- SkiaSharp.NativeAssets.Win32 4.152.0 (Windows runtime dependency)
+- License: MIT for the SkiaSharp packages, with additional upstream native-component notices supplied by the packages.
+- Project: <https://github.com/mono/SkiaSharp>
+
+Release packaging copies each SkiaSharp package's license and any supplied `THIRD-PARTY-NOTICES.txt` into the package's `licenses` directory. Those full notices, including upstream native-code attributions, remain part of the distribution. They are not replaced by this summary.
+
+The versions and license identifiers above are based on the packages resolved for this build. Refer to each package's license texts and notices for its full terms. Documentation-generation dependencies are development tools only; they are not part of the installed application.

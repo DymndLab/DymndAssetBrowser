@@ -1,10 +1,10 @@
 using System.Text;
 using System.Text.Json;
 using System.Diagnostics;
-using FAFamilyBrowser.Core.Indexing;
-using FAFamilyBrowser.Core.Models;
-using FAFamilyBrowser.Core.Parsing;
-using FAFamilyBrowser.Core.Persistence;
+using DymndAssetBrowser.Core.Indexing;
+using DymndAssetBrowser.Core.Models;
+using DymndAssetBrowser.Core.Parsing;
+using DymndAssetBrowser.Core.Persistence;
 
 if (args.Length == 1 && args[0].Equals("--verify-default-state", StringComparison.OrdinalIgnoreCase))
 {
@@ -88,7 +88,9 @@ var random = new Random(seed);
 var indexes = Enumerable.Range(0, assets.Count).ToArray();
 for (var i = indexes.Length - 1; i > 0; i--)
 {
+#pragma warning disable CA5394 // Seeded, reproducible parser sampling; not a security decision.
     var swap = random.Next(i + 1);
+#pragma warning restore CA5394
     (indexes[i], indexes[swap]) = (indexes[swap], indexes[i]);
 }
 var sample = indexes.Take(200).Select(index => assets[index]).ToList();
