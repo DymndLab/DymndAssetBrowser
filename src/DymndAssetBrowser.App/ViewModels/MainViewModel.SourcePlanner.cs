@@ -35,7 +35,10 @@ public sealed partial class MainViewModel
     {
         var component = PlannerComponentFor(tile);
         if (!IsBuildMode || component is null) return null;
-        return _sourceBrowser.Entries.FirstOrDefault(e => e.Asset.StableIdentity == tile.Asset.StableIdentity);
+        var entry = _sourceBrowser.Entries.FirstOrDefault(e => e.Asset.StableIdentity == tile.Asset.StableIdentity);
+        return entry is not null && component == BuildComponent.Walls && WallSetFor(tile) is { } set
+            ? entry with { Taxonomy = entry.Taxonomy with { Materials = _sourcePlannerCatalog.ConstructionMaterials(set.Id) } }
+            : entry;
     }
     public IReadOnlyList<AssetFilterOption> PlannerFilterOptions(AssetTileViewModel tile) => PlannerEntry(tile) is { } entry
         ? AssetFilterShortcut.Options(entry).Where(o => o.Key is "Biome" or "Collection" or "Variant" || o.IsTag || o.Key.StartsWith("Material:")).ToArray() : [];
@@ -66,12 +69,8 @@ public sealed partial class MainViewModel
     public IReadOnlyList<string> WallMaterialsForTrim(AssetTileViewModel tile)
     {
         if (!IsBuildMode || PlannerComponentFor(tile) != BuildComponent.Walls) return [];
-        var entries = _sourcePlannerCatalog.Scope(BuildComponent.Walls).Entries;
-        var entry = entries.FirstOrDefault(e => e.Asset.StableIdentity == tile.Asset.StableIdentity);
-        // Detailing/connector tiles can be outside the primary wall scope.
-        if (entry is null && WallSetFor(tile) is { } set)
-            entry = entries.FirstOrDefault(e => set.WallPieces.Any(a => a.StableIdentity == e.Asset.StableIdentity));
-        return entry?.Taxonomy.Materials.Select(m => m.Key).Distinct(StringComparer.OrdinalIgnoreCase).ToArray() ?? [];
+        return WallSetFor(tile) is { } set
+            ? _sourcePlannerCatalog.ConstructionMaterials(set.Id).Select(m => m.Key).ToArray() : [];
     }
 
     public bool UseWallMaterialsForTrim(AssetTileViewModel tile)

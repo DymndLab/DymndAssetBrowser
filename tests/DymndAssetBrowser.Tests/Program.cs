@@ -37,6 +37,7 @@ internal static class Program
     {
         SecurityRegressionTests.Run(Check);
         PlannerMatchingRegressionTests.Core(Asset, Check);
+        MaterialDiscoveryRegressionTests.Core(Asset, Check);
         FilterShortcutCoreTests();
         var wall = Asset(@"!Core_Settlements\Structures\Building\Walls_and_Curbs\Wall_BrickWood_A\Wall_BrickWood_Earthy_Ashen_A_Corner_D_1x1.png");
         var woodland = Asset(@"Woodlands\Base_Woodlands_Settlement\Furniture\Seating\Chair_Wood_Light_A1.png");
@@ -570,6 +571,7 @@ internal static class Program
         Check(vm.SelectPlannerSample(chosenFloor) && vm.BuildFloorSampleAssets.Count == 1, "Clicking a floor still chooses that exact texture");
         await PlannerInteractionRegressionTests.Run(vm, window, Check);
         await PlannerMatchingRegressionTests.Run(vm, window, Check);
+        await MaterialDiscoveryRegressionTests.Run(vm, Check);
         vm.TrimPlannerFilter.SelectMaterials(["Wood: Ashen"]);
         Check(vm.BuildTrimSampleAssets.Count > 0 && vm.BuildTrimSampleAssets.All(t => SourceTaxonomy.Parse(t.Asset).Materials.Any(m => m.Key == "Wood: Ashen")), "Trim filters use source material finishes");
         vm.TrimPlannerFilter.ExcludeAdditionalMaterials = true;

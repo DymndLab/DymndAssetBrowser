@@ -18,7 +18,7 @@
     <Product>DYM&amp;D Asset Browser</Product>
     <Title>DYM&amp;D Asset Browser</Title>
     <Description>A read-only multi-library art catalog and Clip Studio Paint companion.</Description>
-    <Version>2.9.0</Version>
+    <Version>2.9.1</Version>
     <ApplicationIcon>Assets\Dymnd.ico</ApplicationIcon>
   </PropertyGroup>
 

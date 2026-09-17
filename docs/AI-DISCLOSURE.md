@@ -1,6 +1,6 @@
 # AI-assisted development
 
-DYM&D Asset Browser 2.9.0.
+DYM&D Asset Browser 2.9.1.
 
 My programming experience is mainly C++ for microcontrollers, rather than desktop applications. Codex wrote the application code and supporting scripts. I defined the workflow and feature behavior, tested revisions with my own library and Clip Studio Paint, and directed changes. I have not personally reviewed most of the code; the source is available for others to inspect.
 
@@ -39,6 +39,7 @@ My programming experience is mainly C++ for microcontrollers, rather than deskto
 - Features are implemented and revised incrementally, with automated checks, scripted application testing, and my hands-on use.
 - The 2.9.0 full automated run passed **466 checks**, including Windows UI integration, with no skipped popup screenshots. This is not a claim of complete visual acceptance on every system.
 - The core run passed **158 checks**, and the taxonomy/source/filter/index/cache smoke suite passed. Those checks overlap the full run and are not additional unique tests.
+- The subsequent material-update run passed **528 checks**, including WPF integration and **209 overlapping core checks**. Four inactive-owner popup screenshots were skipped; native CSP importing was not retested. The audit examined all 709 indexed wall sets and 47 material/finish choices, rather than assuming that passing a sample established correctness across the library.
 - An earlier retained snapshot of reports from 10-14 September 2026 contains **33 test runs and 5,593 recorded check passes**. These totals include repeated regression checks and checks completed before a later failure; they are not counts of unique tests or entirely successful runs.
 - A focused subset covers **28 parsing and metadata checks**, with **894 recorded passes** across those reports. Examples include folder hierarchy, biome versus settlement collection, compound-material finish pairing, ceramic finishes, and unknown-folder handling.
 - Parser changes were evaluated through repeated asset sampling reviews, alongside automated regression tests. Samples ranged from roughly **250 items for category-specific checks to 500 items for broad parser reviews**. Real-library audits covered an index of my **166,878 assets**; indexing an asset does not establish that its classification is correct.

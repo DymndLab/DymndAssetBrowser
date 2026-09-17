@@ -8,26 +8,61 @@ public sealed class SourcePlannerCatalog
     private readonly WallConstructionCatalog _walls;
     private readonly AssetCatalogIndex _semantic;
     private readonly Dictionary<BuildComponent, SourceBrowserIndex> _scopes;
+    private readonly Dictionary<string, IReadOnlyList<MaterialTag>> _constructionMaterials = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<SourceBrowserIndex.Entry, string> _wallSetByEntry = new(ReferenceEqualityComparer.Instance);
     public SourcePlannerCatalog(SourceBrowserIndex source, AssetCatalogIndex semantic, WallConstructionCatalog walls)
     {
         _walls = walls; _semantic = semantic;
-        var wallIds = walls.Sets.SelectMany(s => s.WallPieces).Select(a => a.StableIdentity).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var sourceById = source.Entries.ToDictionary(e => e.Asset.StableIdentity, StringComparer.OrdinalIgnoreCase);
+        var wallEntries = new List<SourceBrowserIndex.Entry>();
+        foreach (var set in walls.Sets)
+        {
+            var members = set.WallPieces.Where(a => sourceById.ContainsKey(a.StableIdentity)).Select(a => sourceById[a.StableIdentity]).ToArray();
+            // Path pieces define the construction, not optional shelf/accessory members.
+            // Without path evidence, retain only materials common to the whole set.
+            // This also works for generic libraries without imposing FA material names.
+            var anchors = members.Where(e => e.Asset.PartType.Equals("Path", StringComparison.OrdinalIgnoreCase)
+                || Path.GetFileNameWithoutExtension(e.Asset.FileName).EndsWith("_Path", StringComparison.OrdinalIgnoreCase)).ToArray();
+            var materials = CommonConstructionMaterials(anchors.Length > 0 ? anchors : members);
+            _constructionMaterials[set.Id] = materials;
+            foreach (var entry in members)
+            {
+                var normalized = entry with { Taxonomy = entry.Taxonomy with { Materials = materials } };
+                wallEntries.Add(normalized);
+                _wallSetByEntry.Add(normalized, set.Id);
+            }
+        }
         var floorIds = BuildModeService.MatchSelection(semantic, BuildComponent.Floor, new()).Select(a => a.StableIdentity).ToHashSet(StringComparer.OrdinalIgnoreCase);
         var trimIds = BuildModeService.MatchSelection(semantic, BuildComponent.Trim, new()).Select(a => a.StableIdentity).ToHashSet(StringComparer.OrdinalIgnoreCase);
         _scopes = new()
         {
-            [BuildComponent.Walls] = new(source.Entries.Where(e => wallIds.Contains(e.Asset.StableIdentity))),
+            [BuildComponent.Walls] = new(wallEntries),
             [BuildComponent.Floor] = new(source.Entries.Where(e => floorIds.Contains(e.Asset.StableIdentity))),
             [BuildComponent.Trim] = new(source.Entries.Where(e => trimIds.Contains(e.Asset.StableIdentity)))
         };
     }
     public SourceBrowserIndex Scope(BuildComponent component) => _scopes[component];
+    public IReadOnlyList<MaterialTag> ConstructionMaterials(string setId) => _constructionMaterials.GetValueOrDefault(setId) ?? [];
+
+    private static IReadOnlyList<MaterialTag> CommonConstructionMaterials(IReadOnlyList<SourceBrowserIndex.Entry> entries)
+    {
+        if (entries.Count == 0) return [];
+        return entries[0].Taxonomy.Materials.Select(m => m.Material).Distinct(StringComparer.OrdinalIgnoreCase)
+            .Where(material => entries.All(e => e.Taxonomy.Materials.Any(m => m.Material.Equals(material, StringComparison.OrdinalIgnoreCase))))
+            .Select(material =>
+            {
+                var finishes = entries.SelectMany(e => e.Taxonomy.Materials)
+                    .Where(m => m.Material.Equals(material, StringComparison.OrdinalIgnoreCase))
+                    .Select(m => m.Finish).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+                return new MaterialTag(material, finishes.Length == 1 ? finishes[0] : "");
+            }).ToArray();
+    }
     public IReadOnlyList<WallConstructionSet> WallSets(PlannerSourceSelection selection, string sourceId)
     {
         var ids = Scope(BuildComponent.Walls).Filter(selection.Filter with { SourceId = sourceId })
-            .Select(e => e.Asset.StableIdentity).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            .Select(e => _wallSetByEntry[e]).ToHashSet(StringComparer.OrdinalIgnoreCase);
         return _walls.Sets.Where(s => (selection.SelectedIdentity.Length == 0 || s.Id.Equals(selection.SelectedIdentity, StringComparison.OrdinalIgnoreCase))
-            && s.WallPieces.Any(a => ids.Contains(a.StableIdentity))).ToArray();
+            && ids.Contains(s.Id)).ToArray();
     }
     public List<AssetRecord> Assets(BuildComponent component, PlannerSourceSelection selection, string sourceId) =>
         Scope(component).Filter(selection.Filter with { SourceId = sourceId })

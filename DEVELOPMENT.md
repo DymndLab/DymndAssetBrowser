@@ -1,6 +1,6 @@
 # Development workspace
 
-Current release: **DYM&D Asset Browser 2.9.0**, packaging the accepted 2.8.5.3 behavior. Open this repository folder directly in VS Code.
+Current release: **DYM&D Asset Browser 2.9.1**, updating Planner material matching and floor parsing. Open this repository folder directly in VS Code.
 
 ## Build and test
 
@@ -29,14 +29,14 @@ The owner completed the illustrated guide in Google Docs. `docs/Dymnd-Asset-Brow
 ## Package without publication
 
 ```powershell
-.\scripts\build-release.ps1 -Version 2.9.0
+.\scripts\build-release.ps1 -Version 2.9.1
 # Portable-only:
-.\scripts\build-release.ps1 -Version 2.9.0 -SkipInstaller
+.\scripts\build-release.ps1 -Version 2.9.1 -SkipInstaller
 # Only after explicit owner release approval:
-.\scripts\build-release.ps1 -Version 2.9.0 -PublicRelease
+.\scripts\build-release.ps1 -Version 2.9.1 -PublicRelease
 ```
 
-Windows x64, a self-contained runtime and the bundled WebP codec are included. Inno Setup 6 is required unless explicitly skipped. The script checks the project version, runs smoke/core/security/theme checks, and creates a fresh `artifacts/releases/2.9.0-<run-id>` directory. The manifest lists that run's ZIP, installer, and PDF with checksums, without absolute build paths.
+Windows x64, a self-contained runtime and the bundled WebP codec are included. Inno Setup 6 is required unless explicitly skipped. The script checks the project version, runs smoke/core/security/theme checks, and creates a fresh `artifacts/releases/2.9.1-<run-id>` directory. The manifest lists that run's ZIP, installer, and PDF with checksums, without absolute build paths.
 
 Reviewed documentation is included by default from a narrow allowlist. The gate checks the release version, approved PDF hash, and file presence. `-Documentation Deferred` remains available for private development but cannot be combined with `-PublicRelease`. Building does not push, tag, sign, or publish anything. The GitHub workflow retains artifacts without publishing releases.
 

@@ -1,6 +1,6 @@
 # Release checklist
 
-Release target: **2.9.0**. The owner approved publishing the existing behavior with the personal CSP Tool/Tool Group defaults disclosed, rather than waiting for CSV import/export.
+Release target: **2.9.1**. The owner approved the material-filter/parser update and the commit message before publication. Personal CSP Tool/Tool Group defaults remain disclosed; CSV import/export and diagnostic logging are excluded.
 
 ## Before packaging
 
@@ -18,7 +18,8 @@ Release target: **2.9.0**. The owner approved publishing the existing behavior w
 - Exercise isolated install/upgrade without touching live settings or artwork; confirm the installed binary matches the package.
 - Keep the unsigned-installer notice. Automated checks are not an independent security audit or proof of native CSP acceptance.
 - The owner confirmed the updated Planner in live use. Native CSP drops, linked File Objects, original/transformed WebP imports, and high-DPI behavior remain manual acceptance areas; do not claim the automated suite proves them.
-- Some floor assets still expose Tile separately from the intended Stone/finish pairing. This limitation is disclosed rather than changed in this release.
+- Verify Adobe accessory materials do not influence wall-set discovery/Trim defaults, mixed-material sets remain discoverable, and complete sets retain their window segments and accessories.
+- Verify stone tiles and dirty-stone textures expose Stone/finish pairs without changing ceramic or actual dirt terrain. Explain that a saved Tile-only filter may need clearing.
 
 ## Publication
 

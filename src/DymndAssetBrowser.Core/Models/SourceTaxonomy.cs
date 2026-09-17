@@ -55,11 +55,27 @@ public sealed record SourceTaxonomy(string Biome, string Context, string Collect
         // Conservative lexical aliases bridge equivalent source folders without moving assets.
         if (tags.Any(t => t.Contains("Dwarf", StringComparison.OrdinalIgnoreCase) || t.Contains("Dwarven", StringComparison.OrdinalIgnoreCase))) tags.Add("Dwarven");
         if (tags.Any(t => t.Equals("Minecarts", StringComparison.OrdinalIgnoreCase) || t.Equals("Mine Carts", StringComparison.OrdinalIgnoreCase))) tags.Add("Mine Carts");
-        // Ceramic describes composition; Tile describes the object, not a second material.
-        var materialTokens = tokens.Contains("Ceramic", StringComparer.OrdinalIgnoreCase)
+        // With explicit composition, Tile describes shape rather than a second material.
+        // Do not guess that a bare Tile asset is stone, or turn ceramic's Sandstone color into stone.
+        var explicitComposition = tokens.Contains("Ceramic", StringComparer.OrdinalIgnoreCase)
+            || tokens.Contains("Stone", StringComparer.OrdinalIgnoreCase);
+        var materialTokens = explicitComposition
             ? tokens.Where(t => !t.Equals("Tile", StringComparison.OrdinalIgnoreCase) && !t.Equals("Tiles", StringComparison.OrdinalIgnoreCase)).ToArray() : tokens;
         var isCeramicTile = tokens.Contains("Ceramic", StringComparer.OrdinalIgnoreCase) && tokens.Any(t => t.Equals("Tile", StringComparison.OrdinalIgnoreCase) || t.Equals("Tiles", StringComparison.OrdinalIgnoreCase));
         var materials = ParseMaterials(materialTokens, isCeramicTile).ToList();
+        // In FA's explicit Stone_Floors texture collection, Dirt/Dirt1/etc
+        // describes the surface finish, not a replacement construction material.
+        // Keep this path-scoped: actual dirt terrain must remain Dirt.
+        if (isFa && asset.Group == "Building" && asset.SubGroup == "Floors"
+            && dirs.Any(d => d.Equals("Textures", StringComparison.OrdinalIgnoreCase))
+            && dirs.Any(d => d.Equals("Stone_Floors", StringComparison.OrdinalIgnoreCase))
+            && tokens.Any(t => Regex.IsMatch(t, @"^Dirt\d*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)))
+        {
+            materials.RemoveAll(m => m.Material.Equals("Dirt", StringComparison.OrdinalIgnoreCase)
+                || m.Material.Equals("Stone", StringComparison.OrdinalIgnoreCase));
+            materials.Add(new("Stone", "Dirt"));
+            tags.Add("Dirt");
+        }
         // Explicit source material folders can fill omissions (e.g. Stone_Floors textures).
         // Do not take material-looking words from arbitrary ancestors or named settlements.
         if (materials.Count == 0)

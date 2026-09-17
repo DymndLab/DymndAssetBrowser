@@ -2,11 +2,11 @@
 
 A local Windows application for browsing image libraries and assembling wall, floor, and trim palettes for Clip Studio Paint. It supports Forgotten Adventures libraries and other folders of images.
 
-**Current release: 2.9.0.** [Download the Windows installer or portable ZIP](https://github.com/DymndLab/DymndAssetBrowser/releases/tag/v2.9.0).
+**Current release: 2.9.1.** [Download the Windows installer or portable ZIP](https://github.com/DymndLab/DymndAssetBrowser/releases/tag/v2.9.1).
 
 ## Start here
 
-1. Run `Dymnd-Asset-Browser-Setup-2.9.0.exe`, or extract the portable ZIP and run **DYM&D Asset Browser.exe**.
+1. Run `Dymnd-Asset-Browser-Setup-2.9.1.exe`, or extract the portable ZIP and run **DYM&D Asset Browser.exe**.
 2. Choose **Add FA...** for an intact Forgotten Adventures library, or **Add Other...** for a different image folder.
 3. Wait for the first index. Later starts load the saved index, with a purple loading indicator.
 4. Use **Browser** to find assets, or **Planner** to prepare a Walls + Floor + Trim palette.
@@ -21,6 +21,8 @@ The progressive filters are **Biome > Context > Category > Subcategory > Type**.
 **Materials**, **Settlement collection**, **Variant**, and **Tags** provide additional ways to narrow results. Material finishes are paired with their material: Wood: Ashen and Brick: Earthy are separate values on a mixed wall.
 
 - Material matching includes mixed-material assets by default. Use **Exclude additional materials** for wood-only walls.
+- Planner wall materials describe the construction set, not incidental accessories such as wooden shelves on Adobe walls. All pieces remain available when choosing the set.
+- Explicit stone tiles use **Stone** with their finish, such as **Sandstone** or **Slate**. Ceramic stays separate. Dirty-stone textures in FA's Stone Floors collection remain discoverable under **Stone**.
 - **Match all selections** requires every selected material; otherwise any selected material can match.
 - Tag input is comma-separated. **All tags** requires every entered tag.
 - Filename search combines unquoted words with AND and supports quoted phrases.
@@ -56,7 +58,7 @@ Right-click **Apply filters to Planner** to use biome, settlement, materials, va
 
 ### Included brush references
 
-Recognized wall sets include suggested CSP ribbon brush filenames. The included **Tool** and **Tool Group** labels reflect the developer's personal CSP arrangement, not tool groups supplied by Forgotten Adventures. Your brush locations may differ. Edit the fields and choose **Save for Wall Set**, or organize your CSP brushes to match if you prefer. Existing saved overrides are retained. No brushes are bundled, installed, selected, or reorganized by the app. Association CSV import/export is not included in 2.9.0.
+Recognized wall sets include suggested CSP ribbon brush filenames. The included **Tool** and **Tool Group** labels reflect the developer's personal CSP arrangement, not tool groups supplied by Forgotten Adventures. Your brush locations may differ. Edit the fields and choose **Save for Wall Set**, or organize your CSP brushes to match if you prefer. Existing saved overrides are retained. No brushes are bundled, installed, selected, or reorganized by the app. Association CSV import/export is not included in 2.9.1.
 
 ## Tags, local data, and cache
 
@@ -70,11 +72,11 @@ The gear opens cache utilities. Cache files persist between sessions. Do not cle
 
 - [Feature guide (PDF)](docs/Dymnd-Asset-Browser-Feature-Guide.pdf)
 - [AI-assisted development](docs/AI-DISCLOSURE.md)
-- [2.9.0 release notes](RELEASE-NOTES.md)
+- [2.9.1 release notes](RELEASE-NOTES.md)
 - [Development and packaging](DEVELOPMENT.md)
 - [Documentation review checklist](docs/RELEASE-CHECKLIST.md)
 
-The illustrated PDF is the owner-approved guide. The repository copy includes a drag-and-drop introduction added to section 1 after the 2.9.0 release; the existing release downloads retain the earlier PDF. The Planner refinements described above postdate its screenshots. The guide has not been regenerated from earlier drafts.
+The illustrated PDF includes the owner-approved drag-and-drop introduction in section 1. Its screenshots and some troubleshooting notes predate the latest Planner and material corrections; this README and the release notes describe current behavior. In particular, its older warning about stone textures appearing as Tile is addressed in 2.9.1. The guide has not been regenerated from earlier drafts.
 
 ## Independence and artwork
 

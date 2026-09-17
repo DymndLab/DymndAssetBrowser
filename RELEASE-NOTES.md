@@ -1,12 +1,24 @@
-# DYM&D Asset Browser 2.9.0
+# DYM&D Asset Browser 2.9.1
 
 Windows x64 release. Includes the installer, portable ZIP, illustrated feature guide, and SHA-256 checksums. No asset library or CSP brushes are bundled.
+
+## Update Planner material matching and floor parsing
+
+- Match wall sets by construction materials, excluding incidental shelf materials from discovery and Trim defaults.
+- Preserve mixed-material walls and complete wall sets, including Adobe window segments and shelf pieces.
+- Parse stone tiles as Stone with paired finishes, not Tile. Ceramic remains separate.
+- Ensure dirty-stone textures are discoverable when filtering for Stone.
+- Add regression tests and update release notes.
+
+The library audit covered 709 wall sets and 47 material/finish choices. Nine Adobe Wide sets no longer appear under Wood because of their wooden shelves. Stone parsing corrections cover 36 tiled floor textures, 260 matching inlay pieces and nine dirty-stone textures; asset placement categories remain unchanged.
+
+No reindex is required for these material facets. If a saved floor filter selects Tile and now shows no results, clear it and choose Stone and the desired finish. The included PDF now explicitly explains drag-and-drop in section 1.
 
 ## Included CSP brush references
 
 Recognized wall sets include suggested ribbon brush filenames. The supplied **Tool** and **Tool Group** labels reflect the developer's personal CSP organization, not groups supplied by Forgotten Adventures. Your locations may differ: edit the fields and choose **Save for Wall Set**, or arrange your CSP brushes to match. The app does not install or reorganize brushes. Existing user-saved associations are retained. CSV import/export is planned, not included in this release.
 
-## Latest Planner improvements
+## Existing Planner behavior
 
 - Choosing a wall set supplies matching material/finish defaults to untouched Trim, including matching single-material and mixed pieces. Floor is unchanged; manual Trim choices are preserved.
 - Clicking Trim filters to its exact material combination, before or after Populate Build.
@@ -51,17 +63,17 @@ Recognized wall sets include suggested ribbon brush filenames. The supplied **To
 
 ## Verification snapshot
 
-The 2.9.0 full run passed **466 automated checks**, including Windows UI integration, with no skipped popup screenshots. The core run passed **158 checks**, overlapping the full-run total, and the taxonomy/source/filter/index/cache smoke suite passed. The owner also confirmed the updated Planner behavior in live use. The release dependency audit reported no known vulnerable packages from the configured NuGet source.
+The material-update full run passed **528 automated checks**, including Windows UI integration and **209 overlapping core checks**. Four inactive-owner popup screenshots were skipped in the recorded material-update run. The taxonomy/source/filter/index/cache smoke suite and theme checks passed. The audit found changes only to the intended Adobe material matches among the wall-set material/finish queries.
 
 These checks do not establish native CSP import acceptance, complete visual/high-DPI acceptance, or an independent security audit.
 
 ## Known limits and review items
 
-- Some floor filenames still expose Tile separately instead of the intended Stone/finish pairing. Broaden Materials or search filenames/tags when needed; a parser correction remains open.
+- A bare Tile filename without explicit composition remains Tile; the parser does not assume all tiles are stone.
 - Generic-library metadata depends on folder and filename evidence. FA wall-set/ribbon assumptions may not apply to other providers.
 - Animated WebP is not an animation workflow; previews/transforms use the first frame. No video support.
-- Test original and transformed WebP drags in CSP and verify any linked File Objects before release.
+- Native CSP imports and linked File Objects were not retested for this material-only update.
 - The build is unsigned; Windows may display an unknown-publisher warning.
-- The owner-approved illustrated guide is included unchanged. The latest Planner refinements are described above and in the README; its screenshots predate those refinements.
+- The illustrated guide includes the approved drag-and-drop introduction. Its screenshots and older stone-as-Tile troubleshooting note predate this update; these release notes and the README describe current behavior.
 
-For the earlier public version, see [release 2.5.1](https://github.com/DymndLab/DymndAssetBrowser/releases/tag/v2.5.1).
+For the previous public version, see [release 2.9.0](https://github.com/DymndLab/DymndAssetBrowser/releases/tag/v2.9.0). Debug logging and association CSV import/export are not included in 2.9.1.
